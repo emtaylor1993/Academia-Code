@@ -28,7 +28,7 @@ public class Strings {
 		System.out.println(s1.equals(s2));
 		System.out.print("Using == to compare " + s1 + " and " + s2 + ": ");
 		System.out.println(s1 == s2);
-		System.out.print("Using == to compare lengths of " + s1 + " and " + s2 +": ");
+		System.out.print("Using == to compare lengths of " + s1 + " and " + s2 + ": ");
 		System.out.println(s1.length() == s2.length());
 	}
 }
