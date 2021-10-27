@@ -8,5 +8,4 @@ public class E1JavaOutput {
           System.out.print("Or maybe I should say: ");
           System.out.println("Goodbye World!");
      }
-
 }
