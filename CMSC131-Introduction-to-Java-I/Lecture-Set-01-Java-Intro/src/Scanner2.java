@@ -1,9 +1,7 @@
 import java.util.Scanner;
 
 public class Scanner2{
-
 	public static void main(String[] args) {
-		
 		Scanner s = new Scanner(System.in);
 		
 		System.out.print("What is your favorite book?  ");
@@ -17,8 +15,5 @@ public class Scanner2{
 		System.out.println("Since you have read " + book + " " + timesRead + " times,");
 		System.out.println("and " + book + " weighs " + weight + " pounds,");
 		System.out.println("you have read " + timesRead * weight + " pounds worth of " + book+".");
-
 	}
-
 }
-

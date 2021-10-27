@@ -1,8 +1,8 @@
 /* Demo of trying to combine types.
  * Some are OK, others are not!!
  */
-public class E5TypeProblems {
 
+public class E5TypeProblems {
 	public static void main(String[] args) {
 		int x = 7, y = 12;
 		double d = 72.33;
@@ -10,14 +10,13 @@ public class E5TypeProblems {
 		char c;
 		String s;
 		
-//uncomment lines to see where there are problems
-//		x = y + 24;
-//		y = 17.3;
-//		d = x;
-//		b = 17;
-//		c = "cow";
-//		s = "Here is something weird " + x + y;
-//		System.out.println(s);
+		// uncomment lines to see where there are problems
+		// x = y + 24;
+		// y = 17.3;
+		// d = x;
+		// b = 17;
+		// c = "cow";
+		// s = "Here is something weird " + x + y;
+		// System.out.println(s);
 	}
-
 }

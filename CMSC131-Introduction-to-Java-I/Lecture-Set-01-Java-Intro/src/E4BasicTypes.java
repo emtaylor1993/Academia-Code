@@ -2,8 +2,8 @@
  * and also the String type.
  * 
  * Note that you can declare many different variables with one statement!  */
-public class E4BasicTypes {
 
+public class E4BasicTypes {
 	public static void main(String[] args) {
 		int i1, i2, i3; 
 		double f1 = 7.3, f2 = 9.4;
@@ -27,10 +27,8 @@ public class E4BasicTypes {
 		System.out.println("c = " + c);
 		System.out.println("s = " + s);
 		
-// run with the L then without the L - see the difference		
+		// run with the L then without the L - see the difference		
 		long x = 12312313L * 232312312L;
 		System.out.println("x = "+x);
-		
-
 	}
 }

@@ -7,7 +7,6 @@ public class Scanner3 {
 	 */
 
 	public static void main(String[] args) {
-
 		int invalue1, invalue2;
 		Scanner scn = new Scanner(System.in);
 
@@ -18,8 +17,7 @@ public class Scanner3 {
 
 		System.out.println();
 		String s1, s2, s3;
-		System.out.println("Enter a line of text that " +
-			"contains more than two words");
+		System.out.println("Enter a line of text that contains more than two words");
 		s1 = scn.next();
 		s2 = scn.next();
 		s3 = scn.nextLine();
@@ -36,5 +34,4 @@ public class Scanner3 {
 
 		System.out.println("good-bye");
 	}
-
 }
