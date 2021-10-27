@@ -5,6 +5,7 @@ public class Scanner1 {
 	/**
 	 * Shows basic use of the scanner
 	 */
+	
 	public static void main(String[] args) {
 		Scanner keyboardInput = new Scanner(System.in);
 		int first, second, sum;
@@ -19,5 +20,4 @@ public class Scanner1 {
 		System.out.println("their sum = "+ sum);
 		System.out.println("their average = " + average);
 	}
-
 }
