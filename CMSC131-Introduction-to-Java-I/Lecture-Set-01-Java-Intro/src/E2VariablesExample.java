@@ -4,7 +4,6 @@
  * Note that each variable is "declared" just ONCE!   */
 
 public class E2VariablesExample {
-
      public static void main(String args[]) {
           int numberOfSocks;
           numberOfSocks = 27;     // An odd number of socks???  Crazy.
