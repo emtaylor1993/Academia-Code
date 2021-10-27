@@ -2,7 +2,6 @@
  * Notice the difference between println and print  
  * The things inside the quotation marks are called "String literals"  */
 public class E1JavaOutput {
-
      public static void main (String args[]) {     //where the program starts
           System.out.println("Hello World!");   
           System.out.print("Or maybe I should say: ");
