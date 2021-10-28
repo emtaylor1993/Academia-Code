@@ -1,0 +1,32 @@
+
+# Increasing first data value in memory by 5
+mrmovl MyData,%eax      # a = *MyData (notice a label is used)
+irmovl $5, %ebx        
+addl %eax, %ebx         # adding 5 to original value
+rmmovl %ebx, MyData     # updating the value in memory
+
+# Accessing first value
+mrmovl MyData, %esi
+wrint %esi
+irmovl $10, %ecx        # newline
+wrch %ecx
+
+# Increasing second data value by 2
+irmovl MyData,%eax      # a = MyData  (NOTICE we are using irmovl, not mrmovl)
+mrmovl 4(%eax), %edx
+irmovl $2, %ebx        
+addl %edx, %ebx         # adding 2 to original value
+rmmovl %ebx, 4(%eax)    # updating the value in memory
+
+# Accessing second value
+mrmovl 4(%eax), %eax
+wrint %eax
+irmovl $10, %ecx        # newline
+wrch %ecx
+
+halt
+  .align 4 
+MyData:
+  .long 0x3             # my static data
+  .long 0x4
+

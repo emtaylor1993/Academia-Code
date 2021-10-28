@@ -1,0 +1,7 @@
+# adjusting starting position (check assembler output)
+.pos 100
+irmovl $9, %eax    # %eax register is assigned value 9
+wrint %eax	   # output the value
+irmovl $10, %ebx   # 10 is \n        
+wrch  %ebx         # printing \n (wrch needs a register argument)
+halt               # important: we need to stop :)

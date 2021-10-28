@@ -1,0 +1,11 @@
+irmovl $7,%eax      # a = 7
+rrmovl %eax,%ebx    # b = a
+irmovl MyData,%ecx  # c = MyData
+rmmovl %ebx,4(%ecx) # *(MyData + 1) = 7
+mrmovl 0(%ecx),%edx # d = *MyData
+halt
+  .align 4
+MyData:
+  .long 0x8   # my global variables
+  .long 0x9
+

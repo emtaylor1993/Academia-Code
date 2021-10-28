@@ -1,0 +1,22 @@
+#same as misc2.ys but without align (check assembler output)
+
+#reading/displaying "X"
+irmovl XAddr, %eax    # a = XAddr
+mrmovl 0(%eax), %ebx  # b = *XAddr
+wrint %ebx	      # output the value
+irmovl $10, %ebx      # 10 is \n        
+wrch  %ebx            
+
+#reading/displaying "Y"
+irmovl YAddr, %eax    # a = YAddr
+mrmovl 0(%eax), %ebx  # b = *YAddr
+wrint %ebx	      # output the value
+irmovl $10, %ebx      # 10 is \n        
+wrch  %ebx            
+
+halt                  
+XAddr:
+   .long 6
+   .long 8	      # we don't use it
+YAddr:
+   .long 20           # not using hexadecimal (not the same as 0x20)

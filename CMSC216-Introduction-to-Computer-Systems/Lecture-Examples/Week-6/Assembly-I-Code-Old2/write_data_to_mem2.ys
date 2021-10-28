@@ -1,0 +1,19 @@
+
+# Accessing static value by using mrmovl and label
+mrmovl MyData,%eax      # a = *MyData (notice a label is used)
+irmovl $5, %ebx        
+addl %eax, %ebx         # adding 5 to original value
+rmmovl %ebx, MyData     # updating the original value
+
+# Accessing value
+mrmovl MyData, %esi
+wrint %esi
+irmovl $10, %ecx        # newline
+wrch %ecx
+
+halt
+  .align 4 
+MyData:
+  .long 0x3             # my static data
+  .long 0x9
+

@@ -1,0 +1,25 @@
+
+# Accessing static value by using mrmovl and label
+mrmovl MyData,%eax      # a = *MyData (notice a label is used)
+wrint %eax
+irmovl $10, %edx        # newline
+wrch %edx
+
+# Accessing static value by using mrmovl and displacement
+irmovl MyData, %ebx     
+mrmovl 4(%ebx), %ecx    # loads 9 into the register c = *(MyData + 1)
+wrint %ecx
+wrch %edx               # newline
+
+# Accessing static value by using mrmovl and displacement
+irmovl MyData, %ebx
+mrmovl 0(%ebx), %ecx    # Reloading 8; We need parentheses, but 0 is optional)
+wrint %ecx
+wrch %edx               # newline
+
+halt
+  .align 4 
+MyData:
+  .long 0x8             # my static data
+  .long 0x9
+
