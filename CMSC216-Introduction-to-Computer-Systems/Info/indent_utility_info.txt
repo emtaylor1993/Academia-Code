@@ -1,0 +1,33 @@
+1. The indent utility allows you indent C source code.
+
+2. The following is an example of how to run the utility 
+   on the file indentExampleBefore.c (available in this
+   directory).  Notice that the file is replaced with
+   the indented code.
+
+   indent indentExampleBefore.c 
+
+3. You should use this utility to indent your C code, 
+   however, keep in mind that no utility is perfect
+   so you should check the final indentation is what
+   you are after.  Also, make sure you compile your
+   code after running indent.
+   
+4. You need a set options to generate a style close
+   to what projects in cmsc106 and cmsc216 require.
+   To set your grace account with the appropriate options
+   see step 5 below.  
+
+5. Add the line that follows ADD_FOLLOWING_LINE to the 
+   file .aliases that can be found in your home directory 
+   (cd ~).  Log out and then log on again to see the changes.  
+   You can verify it is correct if you execute alias indent
+   and see the new options.  If you don't have a .aliases
+   file, just create one (notice it needs a period 
+   before aliases). By the way, you may want to add a blank 
+   line after the alias directive to make sure the alias works.
+ 
+
+ADD_FOLLOWING_LINE
+
+alias indent "indent -npsl -br -i3 -di3 -ce -npcs -brf -sob -cli3 -nbbo -nut -l78"

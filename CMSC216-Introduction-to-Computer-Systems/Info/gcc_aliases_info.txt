@@ -1,0 +1,13 @@
+Add the line that follows ADD_FOLLOWING_LINE to the 
+file .aliases that can be found in your home directory 
+(cd ~).  Log out and then log on again to see the changes.  
+You can verify it is correct if you execute alias gcc 
+and see the new options.  If you don't have a .aliases
+file, just create one (notice it needs a period before aliases).
+By the way, you may want to add a blank line after the alias
+directive to make sure the alias works.
+
+ADD_FOLLOWING_LINE
+
+alias gcc "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all"
+

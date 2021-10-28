@@ -1,0 +1,116 @@
+Notes by Neil Spring, Fall 2012
+
+   The goal of the Operating System is to run many programs
+   at once (concurrency), but to give each the impression
+   that it runs alone (isolation), unless it really wants to
+   talk with other running programs (inter-process
+   communication).
+
+   We want to run many things at once because that makes the
+   best use of resources: e.g., one process can use the disk
+   while another uses the network or cpu.  We also split
+   things into many processes because that allows them to
+   fail independently, or have limited access to files.
+
+   A /process/ is a running instance of a program.  It
+   includes the address space and its contents, resource
+   limits, owner (user) and privledges, open files, and some
+   other state. A process may have many /threads/ which are
+   execution contexts: each thread has its own registers and
+   its own stack.  We will mess with threads later, and the 
+   distinction between threads and processes can be blurred.
+
+   We may ask the kernel for the list of all processes by
+   running "ps", possibly "ps -ef" (on mac) or "ps auxww"
+   (on linux).  Each process has an ID number.
+
+   A process may execute inside the kernel, using the
+   kernel's address space (thus, it is more thread-like, but
+   we call it a kernel process anyway).  Processes with
+   names inside square brackets in ps are kernel processes.
+
+   When the kernel begins, it has complete control over the
+   processor: it operates in "ring 0".  It sets up the
+   Interrupt Descriptor Table, which is a mapping from an
+   interrupt number to a function pointer to service that
+   interrupt.  A "page fault" is interrupt 14 (0xE).  A
+   system call in linux is interrupt 0x80.
+
+   When the kernel creates applications, it creates them in
+   "ring 3", implying many restrictions on what an
+   application can do. Only the kernel may call "halt".
+   Only the kernel can read or write to devices.  The 
+   kernel can access any memory, the application can only
+   use the pages that the kernel makes available.
+   Applications have to ask nicely via a system call.
+
+   System call:
+     put system call number in %eax  (irmovl $1, %eax)
+     invoke interrupt 0x80           (int 0x80)
+     get return value in %eax
+
+   How is a process destroyed?
+
+    _exit() is the system call; exit() invokes it after calling some 
+      atexit functions.  main() is actually called by start. [1]
+
+    The program misbehaves - segfault, illegal instructions - 
+      or takes an unhandled signal (like ^C or kill -9).  
+   
+   How is a (user) process created?
+
+    fork() is the system call, invoked by one user process
+      (like a shell) to create another.  fork() returns in
+      the parent, returning the pid of the child.  fork()
+      also returns in the child, returning zero.  The parent
+      and child both have the same memory (same text, same
+      data) except that all writes to memory make
+      per-process copies.   We will use fork in a bit.
+
+    init is the first user process.  pid 1. 
+
+   In what states can a process (thread) be?  
+
+     A process might be *waiting* for a device: it asked to
+     read from a file, and the disk is spinning around and
+     the arm is swinging out to find the right block.  That
+     takes 10ms, which is an eternity.
+
+     A process might be *running* on the processor.  If it's
+     running, the kernel has to be prepared to serve its
+     requests, but it doesn't have to archive its registers.
+
+     A process might be *ready* for the processor.  It's not
+     running, but only because something else is.  It will 
+     get to run again when its turn comes.
+
+     A process might be a *zombie*: it exited, maybe with 
+     success, maybe with failure, and yet its parent has not
+     "reaped" the status code.  The kernel has to remember
+     the exit status until it is reaped.
+
+    Those four are the real states, actually tracked by the
+    kernel.  The following two are sometimes stated, but I
+    find them bogus:
+
+     A process might be *new*, but that's basically *ready*,
+     except in certain (old) operating systems that avoid
+     running more processes than a machine can handle.
+
+     A process might be *terminated*, but then it no longer
+     exists, so I'm not keen on saying it has a "state". 
+     
+     A process might be *sleeping*, but it is effectively
+     waiting either for time to pass or to be awakened by
+     some event.
+
+   Any thread that isn't running has its registers stored in
+    a struct in the kernel.  A *context switch* is the
+    action of taking the registers from the processor,
+    putting them somewhere in memory, and loading a
+    different set from memory into the processor.
+
+   Any thread waiting on a device is waiting on that
+    device's queue (so that the arriving block from disk can
+    quickly move a process into state "ready".
+
