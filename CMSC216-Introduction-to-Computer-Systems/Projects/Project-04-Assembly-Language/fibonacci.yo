@@ -1,0 +1,59 @@
+                      | # Emmanuel Taylor
+                      | # UID: 111615834
+                      | # Directory ID: etaylor5
+                      | # CMSC216: Project 4: Assembly
+                      | #
+                      | # fibonacci.ys
+                      | 
+  0x000: 308400100000 | MAIN:	irmovl	 $0x1000, %esp		# initialize the stack pointer.
+                      | 
+  0x006: f208         | 	rdint	 %eax			# reads value for n from the user.
+  0x008: 308300000000 | 	irmovl 	 $0, %ebx		# puts value 0 in register ebx.
+  0x00e: a008         | 	pushl 	 %eax 			# pushes paramater onto the stack.
+  0x010: 8022000000   | 	call 	 FIBO			# calls FIBO function.
+  0x015: b008         | 	popl	 %eax			# removes parameter from the stack.
+  0x017: f338         | 	wrint 	 %ebx			# writes 0 to standard output.
+  0x019: 30820a000000 | 	irmovl	 $10, %edx		# puts \n character in register edx.
+  0x01f: f128         | 	wrch 	 %edx			# prints the \n.
+  0x021: 10           | 	halt 				# program finishes.
+                      | 
+  0x022: a058         | FIBO:	pushl 	 %ebp			# saving the old frame pointer.
+  0x024: 2045         | 	rrmovl 	 %esp, %ebp		# sets the new frame pointer.
+  0x026: 500508000000 | 	mrmovl 	 8(%ebp), %eax		# retrieving the parameter
+                      | 
+  0x02c: 308201000000 | 	irmovl 	 $1, %edx		# puts value 1 in register edx.
+                      | 
+  0x032: 6200         | 	andl 	 %eax, %eax		# bitwise and on register eax contents.
+  0x034: 737e000000   | 	je 	 DONE1			# if result equals 0, jump to DONE.
+                      | 
+  0x039: 6102         | 	subl 	 %eax, %edx		# subtracts eax from edx.
+  0x03b: 7371000000   | 	je 	 DONE2			# if result is 0, eax must be 1.. DONE2.
+                      | 
+                      | 	# (N - 1)
+  0x040: 308201000000 | 	irmovl	 $1, %edx		# puts value 1 in register edx.
+  0x046: 2001         | 	rrmovl 	 %eax, %ecx		# makes a copy of eax inside ecx.
+  0x048: 6121         | 	subl 	 %edx, %ecx		# ecx becomes (n - 1).
+  0x04a: a018         | 	pushl 	 %ecx 			# pushes (n - 1) onto the stack.
+  0x04c: 8022000000   | 	call 	 FIBO			# recursively calls FIBO function.
+  0x051: b018         | 	popl 	 %ecx			# removes (n - 1) from the stack.
+  0x053: 500508000000 | 	mrmovl   8(%ebp), %eax		# retrieves the parameter.
+                      | 
+                      | 	# (N - 2)
+  0x059: 308202000000 | 	irmovl   $2, %edx		# puts value 2 in register edx.
+  0x05f: 2001         | 	rrmovl 	 %eax, %ecx		# makes a copy of eax in ecx.
+  0x061: 6121         | 	subl 	 %edx, %ecx		# ecx becomes (n - 2).
+  0x063: a018         | 	pushl 	 %ecx 			# pushes (n - 2) onto the stack.
+  0x065: 8022000000   | 	call 	 FIBO			# recursively calls FIBO function
+  0x06a: b018         | 	popl 	 %ecx			# removes (n - 2) from the stack.
+                      | 
+  0x06c: 707e000000   | 	jmp 	 DONE1			# jump to DONE1.
+                      | 
+  0x071: 308201000000 | DONE2:	irmovl   $1, %edx		# puts value 1 in register edx.
+  0x077: 6023         | 	addl 	 %edx, %ebx		# adds edx and ebx.
+  0x079: 2054         | 	rrmovl 	 %ebp, %esp		# resets the stack pointer.
+  0x07b: b058         | 	popl 	 %ebp    		# restore the old frame pointer.
+  0x07d: 90           | 	ret  				# exits.
+                      | 
+  0x07e: 2054         | DONE1:	rrmovl 	 %ebp, %esp		# resets the stack pointer.
+  0x080: b058         | 	popl 	 %ebp 			# restore old frame pointer.
+  0x082: 90           | 	ret  				# exits.

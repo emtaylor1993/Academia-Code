@@ -1,0 +1,211 @@
+                      | # Emmanuel Taylor
+                      | # UID: 111615834
+                      | # Directory ID: etaylor5
+                      | # CMSC216: Project 4: Assembly
+                      | #
+                      | # quick_sort.ys
+                      | 
+  0x000: 308400100000 | MAIN:	irmovl	$0x1000, %esp		# Initialize the stack pointer.
+                      | 
+  0x006: f208         | 	rdint	%eax		        # Reads in an integer into %eax.
+  0x008: 3083f4010000 | 	irmovl	$500, %ebx	   	# Used to represent max array size.
+  0x00e: 6200         | 	andl	%eax, %eax		# Bitwise and on %eax and %eax.
+  0x010: 73af000000   | 	je	END   			# If equal to zero, jump to end.
+                      | 
+  0x015: 6103         | 	subl	%eax, %ebx	        # Check if less than max array size.
+  0x017: 72af000000   | 	jl	END   			# If less than 0, jump to end.
+                      | 
+  0x01c: a008         | 	pushl	%eax			# Pushes %eax onto the stack.
+  0x01e: 8050000000   | 	call	READ		        # Calls the function READ.
+  0x023: b008         | 	popl    %eax			# Removes %eax from the stack.
+  0x025: 308301000000 | 	irmovl	$1, %ebx		# Places integer 1 into %ebx.
+  0x02b: 6130         | 	subl	%ebx, %eax		# Updating %eax.
+  0x02d: 308300000000 | 	irmovl	$0, %ebx		# Places integer 0 into %ebx.
+  0x033: a038         | 	pushl	%ebx			# Pushes %ebx onto the stack.
+  0x035: a008         | 	pushl	%eax			# Pushes %eax onto the stack
+  0x037: 80b0000000   | 	call	SORT    	        # Calls the function SORT.
+  0x03c: b008         | 	popl	%eax			# Removes %eax from the stack.
+  0x03e: b038         | 	popl	%ebx			# Removes %ebx from the stack.
+  0x040: a008         | 	pushl	%eax	   		# Pushes %eax onto the stack
+  0x042: 308300000000 | 	irmovl	$0, %ebx		# Places integer 0 into %ebx.
+  0x048: 8078020000   | 	call	PRINTARRAY  		# Calls the function PRINTARRAY.
+  0x04d: b008         | 	popl	%eax			# Removes %eax from the stack.
+  0x04f: 10           | 	halt				# Ends the program.
+                      | 	
+  0x050: a058         | READ:	pushl	%ebp		        # Saving the old frame pointer.
+  0x052: 2045         | 	rrmovl	%esp, %ebp      	# Setting the new frame pointer.
+                      | 
+  0x054: 308004000000 | 	irmovl	$4, %eax		# Places the value 4 into %eax.
+  0x05a: 6104         | 	subl	%eax, %esp	        # Subtracting %eax from %esp to find it.
+  0x05c: 501508000000 | 	mrmovl	8(%ebp), %ecx	        # Retrieving the parameter.
+  0x062: 308300000000 | 	irmovl	$0, %ebx 		# Places the value 0 into %ebx.
+  0x068: 4035fcffffff | 	rmmovl	%ebx, -4(%ebp)		# Updating memory.
+  0x06e: 5038bb020000 | 	mrmovl	MYDATA, %ebx		# Moving MYDATA into %ebx.
+  0x074: 7079000000   | 	jmp	RINT			# Jump to RINT.
+                      | 
+  0x079: f228         | RINT:	rdint	%edx			# Reads an integer into %edx.
+  0x07b: 402300000000 | 	rmmovl	%edx, 0(%ebx)		# Places %edx into memory.
+  0x081: 6003         | 	addl	%eax, %ebx		# Updating %ebx with addition.
+  0x083: 5023fcffffff | 	mrmovl	-4(%ebx), %edx		# Moving memory into %edx.
+                      | 
+  0x089: 308701000000 | 	irmovl	$1, %edi	        # Increment variable.
+  0x08f: 5065fcffffff | 	mrmovl	-4(%ebp), %esi	        # Retrieving the local variable.
+  0x095: 6076         | 	addl	%edi, %esi	        # Increment takes place.
+  0x097: 4065fcffffff | 	rmmovl	%esi, -4(%ebp) 		# Stores value within memory.
+  0x09d: 502508000000 | 	mrmovl	8(%ebp), %edx		# Updates the register from memory.
+  0x0a3: 6126         | 	subl	%edx, %esi	        # Checking i against number of elements.
+  0x0a5: 7279000000   | 	jl	RINT			# Jumps to RINT if less than 0.
+                      | 
+  0x0aa: 2054         | 	rrmovl	%ebp, %esp		# Resetting the stack pointer.
+  0x0ac: b058         | 	popl	%ebp  			# Restoring the old frame pointer.
+  0x0ae: 90           | 	ret				# Exits.
+                      | 
+  0x0af: 10           | END:	halt				# Ends the program.
+                      | 
+  0x0b0: a058         | SORT:	pushl	%ebp		        # Saving the old frame pointer.
+  0x0b2: 2045         | 	rrmovl	%esp, %ebp	        # Setting the new frame pointer.
+                      | 
+  0x0b4: 500508000000 | 	mrmovl	8(%ebp), %eax	   	# Retrieving the last variable.
+  0x0ba: 50350c000000 | 	mrmovl	12(%ebp), %ebx	        # Retrieving the first variable.
+                      | 	
+  0x0c0: 5068bb020000 | 	mrmovl	MYDATA, %esi	        # Establishing a pointer to the array.
+  0x0c6: 2002         | 	rrmovl	%eax, %edx	 	# Makes a copy of %eax within %edx.  
+  0x0c8: 6032         | 	addl	%ebx, %edx	        # Represents the left + the right.
+  0x0ca: 308102000000 | 	irmovl	$2, %ecx		# Stores integer 2 into %ecx.
+  0x0d0: 6512         | 	divl	%ecx, %edx	    	# Represents left + right div 2.
+  0x0d2: 308104000000 | 	irmovl	$4, %ecx	    	# Stores integer 4 into %ecx.
+  0x0d8: 6412         | 	multl	%ecx, %edx	        # Multiplies %ecx and %edx.
+  0x0da: 6026         | 	addl	%edx, %esi	        # Reresents ARR = ARR + (L + R)/2
+  0x0dc: 502600000000 | 	mrmovl	0(%esi), %edx	    	# The pivot equals pointer to array.
+  0x0e2: 30860c000000 | 	irmovl	$12, %esi		# Places integer 12 into %esi.	    
+                      | 
+  0x0e8: 6164         | 	subl	%esi, %esp	        # Making space for local varables.
+  0x0ea: 4005fcffffff | 	rmmovl	%eax, -4(%ebp) 		# Stores j.
+  0x0f0: 4035f8ffffff | 	rmmovl	%ebx, -8(%ebp) 		# Stores i.
+  0x0f6: 4025f4ffffff | 	rmmovl	%edx, -12(%ebp)		# Stores the pivot.
+  0x0fc: 7001010000   | 	jmp 	CHECK 			# Jumps to CHECK.
+                      | 
+  0x101: 5005fcffffff | CHECK:	mrmovl	-4(%ebp), %eax	        # Retrieving the local variables.
+  0x107: 5035f8ffffff | 	mrmovl	-8(%ebp), %ebx		# Retrieving the local variables.    
+  0x10d: 6130         | 	subl	%ebx, %eax	    	# Checks if less than.
+  0x10f: 7219020000   | 	jl	RECUR 			# If true, jump to RECUR.
+  0x114: 7019010000   | 	jmp     LPIVOT			# Else jump to LPIVOT.
+                      | 
+  0x119: 5068bb020000 | LPIVOT:	mrmovl	MYDATA, %esi		# Pointer to the array.
+  0x11f: 308104000000 | 	irmovl	$4, %ecx	    	# Represents the increment value.
+  0x125: 5005f8ffffff | 	mrmovl	-8(%ebp), %eax          # Retrieving local variable.
+  0x12b: 6401         | 	multl	%eax, %ecx		# Multiplies %eax and %ecx.
+  0x12d: 6016         | 	addl	%ecx, %esi	        # Finds the array index.
+  0x12f: 501600000000 | 	mrmovl	0(%esi), %ecx		# Updates %ecx from memory.
+  0x135: 5025f4ffffff | 	mrmovl	-12(%ebp), %edx         # Retrieving the pivot.
+  0x13b: 6112         | 	subl	%ecx, %edx	        # Checking if array index < pivot.
+  0x13d: 7647010000   | 	jg	IADD	   	    	# If greater, jump to IADD.
+  0x142: 7060010000   | 	jmp	RPIVOT		        # Else jump to RPIVOT.
+                      | 
+  0x147: 308101000000 | IADD:	irmovl	$1, %ecx	    	# Stores integer 1 into %ecx.
+  0x14d: 5035f8ffffff | 	mrmovl	-8(%ebp), %ebx	    	# Retrieving i from memory.
+  0x153: 6013         | 	addl	%ecx, %ebx	    	# Adding i and %ecx.
+  0x155: 4035f8ffffff | 	rmmovl	%ebx, -8(%ebp) 		# Stores result in memory.
+  0x15b: 7019010000   | 	jmp	LPIVOT			# Jumps back to LPIVOT.
+                      | 
+  0x160: 5068bb020000 | RPIVOT: mrmovl	MYDATA, %esi		# Pointer to the array.
+  0x166: 308104000000 | 	irmovl	$4, %ecx	        # Represents the increment value.
+  0x16c: 5005fcffffff | 	mrmovl	-4(%ebp), %eax	        # Retrieving the local variable.
+  0x172: 6401         | 	multl	%eax, %ecx		# Multiplies %eax and %ecx.
+  0x174: 6016         | 	addl	%ecx,  %esi	        # Finds array index for j.
+  0x176: 501600000000 | 	mrmovl	0(%esi), %ecx		# Updates %ecx from memory.
+  0x17c: 5025f4ffffff | 	mrmovl	-12(%ebp), %edx         # Retrieving the pivot.
+  0x182: 6112         | 	subl	%ecx, %edx	        # Checking if array index > pivot.
+  0x184: 72a1010000   | 	jl	JADD		        # If less than, jump to JADD.
+  0x189: 5005fcffffff | 	mrmovl	-4(%ebp), %eax	        # Retrieving j.
+  0x18f: 5035f8ffffff | 	mrmovl	-8(%ebp), %ebx	        # Retrieving i.
+  0x195: 6103         | 	subl	%eax, %ebx	        # Subtracting j and i.
+  0x197: 71ba010000   | 	jle	SWAP  			# If <= jump to SWAP.
+  0x19c: 7001010000   | 	jmp	CHECK			# Else jump to CHECK.
+                      | 
+  0x1a1: 308101000000 | JADD:	irmovl	$1, %ecx	        # Stores integer 1 into %ecx.
+  0x1a7: 5005fcffffff | 	mrmovl	-4(%ebp), %eax	        # Retrieving j from memory.
+  0x1ad: 6110         | 	subl	%ecx, %eax	        # Subtracting j and %ecx.
+  0x1af: 4005fcffffff | 	rmmovl	%eax, -4(%ebp)          # Stores the result in memory.
+  0x1b5: 7060010000   | 	jmp	RPIVOT			# Jumps back to RPIVOT.
+                      | 
+  0x1ba: 5068bb020000 | SWAP:	mrmovl	MYDATA, %esi	        # Pointer to the array.
+  0x1c0: 308204000000 | 	irmovl	$4, %edx	        # Fjnd array index.
+  0x1c6: 5035f8ffffff | 	mrmovl	-8(%ebp), %ebx	        # Storing i in memory.
+  0x1cc: 6423         | 	multl	%edx, %ebx		# Multiplying %edx and %ebx.
+  0x1ce: 6063         | 	addl	%esi, %ebx		# Adding %esi and %ebx.
+                      | 
+  0x1d0: 501300000000 | 	mrmovl	0(%ebx), %ecx	        # Storing the array index.
+  0x1d6: 5005fcffffff | 	mrmovl	-4(%ebp), %eax          # Finding array index for j.
+  0x1dc: 6420         | 	multl	%edx, %eax		# Multiplying %edx and %eax.
+  0x1de: 6060         | 	addl	%esi, %eax	        # Point to array index for j.
+                      | 
+  0x1e0: 502000000000 | 	mrmovl	0(%eax), %edx	        # Storing the array index j.	    
+  0x1e6: 401000000000 | 	rmmovl	%ecx, 0(%eax)           # Setting the two indexes equal.
+  0x1ec: 402300000000 | 	rmmovl	%edx, 0(%ebx)           # Updating within memory.
+  0x1f2: 308201000000 | 	irmovl	$1, %edx		# Storing integer 1 into %edx.	    
+  0x1f8: 5005fcffffff | 	mrmovl	-4(%ebp), %eax	        # Retrieving j.
+  0x1fe: 5035f8ffffff | 	mrmovl	-8(%ebp), %ebx	        # Retrieving i.
+  0x204: 6023         | 	addl	%edx, %ebx	        # Incrementation for i takes place.
+  0x206: 6120         | 	subl	%edx, %eax	        # Decrementation for j takes place.
+  0x208: 4005fcffffff | 	rmmovl	%eax, -4(%ebp)          # Stores the local parameters.
+  0x20e: 4035f8ffffff | 	rmmovl	%ebx, -8(%ebp)		# Updates within memory.
+  0x214: 7001010000   | 	jmp 	CHECK 			# Jumps back to CHECK.
+                      | 
+  0x219: 8028020000   | RECUR:	call	LSORT                   # Calls the recursion LSORT.
+  0x21e: 8050020000   | 	call	RSORT		        # Calls the recursion RSORT.
+  0x223: 2054         | 	rrmovl	%ebp, %esp	        # Resetting the stack pointer.
+  0x225: b058         | 	popl	%ebp  			# Restoring the old frame pointer.
+  0x227: 90           | 	ret				# Exits.
+                      | 
+  0x228: 50050c000000 | LSORT:  mrmovl	12(%ebp), %eax	   	# Retrieving the left parameter.
+  0x22e: 5035fcffffff | 	mrmovl	-4(%ebp), %ebx	   	# Retrieving j from memory.
+  0x234: 6130         | 	subl	%ebx, %eax	        # Represents left - j.
+  0x236: 723c020000   | 	jl	LRSORT			# If less, jump to LRSORT.
+  0x23b: 90           | 	ret				# Exits.
+                      | 
+  0x23c: 50050c000000 | LRSORT:	mrmovl	12(%ebp), %eax   	# Retrieving the left parameter.
+  0x242: a008         | 	pushl	%eax	   	        # Pushes %eax onto the stack.
+  0x244: a038         | 	pushl	%ebx		   	# Pushes %ebx onto the stack.
+  0x246: 80b0000000   | 	call	SORT		        # Calls the function SORT.
+  0x24b: b008         | 	popl	%eax		   	# Removes %eax from the stack.
+  0x24d: b008         | 	popl	%eax		   	# Removes %eax from the stack.
+  0x24f: 90           | 	ret				# Exits.
+                      | 
+  0x250: 500508000000 | RSORT:	mrmovl	8(%ebp), %eax	        # Retrieving the right parameter.
+  0x256: 5035f8ffffff | 	mrmovl	-8(%ebp), %ebx	        # Retrieving i from memory.
+  0x25c: 6130         | 	subl	%ebx, %eax	        # Represents i - right.
+  0x25e: 7664020000   | 	jg	RRSORT	   	        # If greater, jump to RRSORT.
+  0x263: 90           | 	ret				# Exits.
+                      | 
+  0x264: 500508000000 | RRSORT:	mrmovl	8(%ebp), %eax	        # Retrieving the right parameter.
+  0x26a: a038         | 	pushl	%ebx	   	        # Pushes %ebx onto the stack.
+  0x26c: a008         | 	pushl	%eax			# Pushes %eax onto the stack.
+  0x26e: 80b0000000   | 	call	SORT		   	# Calls the function SORT.
+  0x273: b008         | 	popl	%eax		   	# Removes %eax from the stack.
+  0x275: b008         | 	popl	%eax			# Removes %eax from the stack.
+  0x277: 90           | 	ret				# Exits.
+                      | 
+  0x278:              | PRINTARRAY:	
+  0x278: 500404000000 | 	mrmovl	4(%esp), %eax		# Retrieving the size.
+  0x27e: 6130         | 	subl	%ebx, %eax	        # Subtracting i from size.
+  0x280: 758e020000   | 	jge	PRINT 			# If greater, jump to PRINT.
+  0x285: 30860a000000 | 	irmovl	$10, %esi   	        # Places new line character into %esi.
+  0x28b: f168         | 	wrch	%esi 			# Prints the new line character.
+  0x28d: 90           | 	ret				# Exits.
+                      | 
+  0x28e: 308604000000 | PRINT:	irmovl	$4, %esi   	        # Places integer 4 into %esi.
+  0x294: 6436         | 	multl	%ebx, %esi              # Multiplies %ebx and %esi.
+  0x296: 5078bb020000 | 	mrmovl	MYDATA,   %edi		# Moves MYDATA to %edi.
+  0x29c: 6067         | 	addl	%esi, %edi		# Adds %esi and %edi and updates.
+  0x29e: 506700000000 | 	mrmovl	0(%edi), %esi  	        # Locating the array index.
+  0x2a4: f368         | 	wrint	%esi	   	        # Printing the array index.
+  0x2a6: 308620000000 | 	irmovl	$32, %esi	        # Places the space character into %esi.
+  0x2ac: f168         | 	wrch	%esi 			# Prints out the space character.
+  0x2ae: 308601000000 | 	irmovl	$1, %esi	        # Places integer 1 into %esi.
+  0x2b4: 6063         | 	addl	%esi, %ebx		# Increments i.
+  0x2b6: 7078020000   | 	jmp	PRINTARRAY 	        # Jumps back to PRINTARRAY.
+                      | 
+  0x2bc:              | MYDATA: .align 4
+  0x2bc: 00000000     | 	.long 0
+  0x2c0: 04000000     | 	.long 4

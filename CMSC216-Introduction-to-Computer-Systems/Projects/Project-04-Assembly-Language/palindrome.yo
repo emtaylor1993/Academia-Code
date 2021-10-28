@@ -1,0 +1,83 @@
+                      | # Emmanuel Taylor
+                      | # UID: 111615834
+                      | # Directory ID: etaylor5
+                      | # CMSC216: Project 4: Assembly
+                      | #
+                      | # palindrome.ys
+                      | 
+  0x000: 3083ae000000 | MAIN:	     irmovl  MYDATA, %ebx    # Starting address of the array.
+  0x006: 308250000000 | 	     irmovl  $80, %edx       # Respresents max_characters.
+  0x00c: 308600000000 | 	     irmovl  $0, %esi        # Iteration variable.
+                      | 	     
+  0x012: 6121         | LOOP1:	     subl    %edx, %ecx      # Checks if the variable < max_characters. 
+  0x014: 733d000000   |              je      BREAK1	     # If they are equal, break the loop.
+                      | 
+  0x019: f008         |              rdch    %eax            # Reading chars from user.
+  0x01b: 400300000000 |              rmmovl  %eax, 0(%ebx)   # Updates the characters value in memory.
+  0x021: 30870a000000 |              irmovl  $10, %edi       # Places newline character in %edi.
+  0x027: 6170         |              subl    %edi, %eax      # Checking is user enters \n first.
+  0x029: 733d000000   |              je      BREAK1          # If they are equal, break the loop.
+                      |    
+  0x02e: 308104000000 |              irmovl  $4, %ecx        # Stores integer for in %ecx.
+  0x034: 6013         |              addl    %ecx, %ebx      # Moves to the next element in the array.
+  0x036: 6016         |              addl    %ecx, %esi      # Increments the index with 4 bytes.
+  0x038: 7012000000   |              jmp     LOOP1           # Reiterate through this loop.
+                      | 	     
+  0x03d: 2062         | BREAK1:      rrmovl  %esi, %edx      # Sets datalength equal to index.
+  0x03f: 308600000000 |              irmovl  $0, %esi        # Resets index to 0.
+  0x045: 308102000000 |              irmovl  $2, %ecx        # Stores the integer 2 in %ecx.
+  0x04b: 2020         |              rrmovl  %edx, %eax      # Copies datalength into %eax.
+  0x04d: 6510         |              divl    %ecx, %eax      # Represents datalength/2.
+                      | 
+  0x04f: 2061         | LOOP2:       rrmovl  %esi, %ecx      # Makes a copy of index into %ecx.
+  0x051: 6101         |              subl    %eax, %ecx      # Checks if index is > datalength/2.
+  0x053: 769d000000   |              jg      FINISH          # If true, break loop and print out Y.
+                      | 
+  0x058: 3083ae000000 |              irmovl  MYDATA, %ebx    # Reset the array start address.
+  0x05e: 308104000000 |              irmovl  $4, %ecx        # Stores integer 4 into %ecx.
+  0x064: 6112         |              subl    %ecx, %edx      # Creates a new index.
+  0x066: 6023         |              addl    %edx, %ebx      # Represents arr[datalength - index - 4].
+  0x068: 507300000000 |              mrmovl  0(%ebx), %edi   # Updates in memory.
+  0x06e: 6123         |              subl    %edx, %ebx      # Returns array index to original position.
+  0x070: 6063         |              addl    %esi, %ebx      # Add index to the array position.
+  0x072: 501300000000 |              mrmovl  0(%ebx), %ecx   # Updates in memory.
+  0x078: 6117         |              subl    %ecx, %edi      # Checking if these two items are equal.
+  0x07a: 748c000000   |              jne     BREAK2          # If not equal, break loop and print out N.
+                      | 
+  0x07f: 308104000000 |              irmovl  $4, %ecx        # Stores integer 4 into %ecx.
+  0x085: 6016         |              addl    %ecx, %esi      # Updates the index by adding 4 bytes.
+  0x087: 704f000000   |              jmp     LOOP2           # Reiterating through the loop.
+                      | 
+  0x08c: 30814e000000 | BREAK2:      irmovl  $78, %ecx       # Stores the character N into %ecx.
+  0x092: 30870a000000 | 	     irmovl  $10, %edi	     # Stores the \n character into %edi.
+  0x098: f118         |              wrch    %ecx            # Prints out N.
+  0x09a: f178         |              wrch    %edi	     # Prints out the newline character.
+  0x09c: 10           |              halt                    # Exits the program.
+                      | 
+  0x09d: 308159000000 | FINISH:      irmovl  $89, %ecx       # Stores the character Y into %ecx.
+  0x0a3: 30870a000000 | 	     irmovl  $10, %edi	     # Stores the \n character into %edi.
+  0x0a9: f118         |              wrch    %ecx 	     # Prints out Y.
+  0x0ab: f178         |              wrch    %edi	     # Prints out the newline character.
+  0x0ad: 10           |              halt                    # Exits the program.
+                      | 
+  0x0b0:              | MYDATA:      .align 4
+  0x0b0: 00000000     |              .long 0
+  0x0b4: 04000000     |              .long 4
+  0x0b8: 08000000     | 	     .long 8
+  0x0bc: 0c000000     |              .long 12
+  0x0c0: 10000000     | 	     .long 16
+  0x0c4: 14000000     | 	     .long 20
+  0x0c8: 18000000     | 	     .long 24
+  0x0cc: 1c000000     | 	     .long 28
+  0x0d0: 20000000     | 	     .long 32
+  0x0d4: 24000000     | 	     .long 36
+  0x0d8: 28000000     | 	     .long 40
+  0x0dc: 2c000000     | 	     .long 44
+  0x0e0: 30000000     | 	     .long 48
+  0x0e4: 34000000     | 	     .long 52
+  0x0e8: 38000000     | 	     .long 56
+  0x0ec: 3c000000     | 	     .long 60
+  0x0f0: 40000000     | 	     .long 64
+  0x0f4: 44000000     | 	     .long 68
+  0x0f8: 48000000     | 	     .long 72
+  0x0fc: 4c000000     | 	     .long 76
