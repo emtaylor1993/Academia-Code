@@ -1,0 +1,75 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use File::Basename;
+use File::Temp qw/tempfile tempdir/;
+
+BEGIN {
+  $SIG{ALRM} = sub { die "Out of time!\n\nFAILED.\n"; };
+  $SIG{SEGV} = sub { die "Killed.\n\nFAILED.\n"; };
+}
+
+my $MAX_OUTPUT = 1024 * 1024;  # max output in bytes
+my $PROG = basename $0;
+
+sub usage {
+  print STDERR "Usage: $PROG <timeout in seconds> " .
+               "<output file> <program argv>\n";
+  print STDERR "  Timeout must be at least 1 second.\n";
+  exit 65;
+}
+
+my $timeout_len = shift;
+my $output_file = shift;
+usage() if ! defined($output_file) || ! @ARGV || $timeout_len < 1;
+
+if (! -e $output_file) {
+  die "$PROG: can't find output file \"$output_file\"!\n";
+}
+
+# Needed in case of spaces or weird characters
+my $prog_argv = join(" ", map(quotemeta, @ARGV));
+
+# Set timeout and execute program
+alarm $timeout_len;
+my @from_program = `$prog_argv`;
+alarm 0;
+if ($?) {
+  my $code = $? >> 8;
+  my $sig = $? & ((1 << 8) - 1);
+  my $death = "Execution error";
+  $death .= ", exit code $code" if $code;
+  if ($sig) {
+    $sig = `kill -l $sig`;
+    chomp $sig;
+    $death .= ", received signal $sig";
+  }
+  die "$death\n\nFAILED.\n";
+}
+
+# Creates tempfile (to be deleted on exit), and stuffs output into tempfile
+my $dir = tempdir(CLEANUP => 1);
+my ($fh, $tmpfile) = tempfile(DIR => $dir);
+print $fh @from_program;
+close $fh;
+
+                                 # Just in case!
+my @diff_results = `diff -U 0 -b @{[quotemeta $output_file]} $tmpfile`;
+if (@diff_results) {
+  shift @diff_results;  # Remove the name of the expected output file
+  shift @diff_results;  # Remove the name of the temp file
+  print "Your output does not match expected output.  ";
+  print "Results from \"diff -U 0 -b\" follow.\n";
+  print "Expected output lines are preceded with '-';";
+  print " your output is preceded with '+'.\n";
+  print "\n";
+  print @diff_results;
+  print "\nFAILED.\n";
+  exit 1;
+}
+else {
+  print "Your output matches expected output!\n";
+  print "\nPASSED!\n";
+  exit 0;
+}
