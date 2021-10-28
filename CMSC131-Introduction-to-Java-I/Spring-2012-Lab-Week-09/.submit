@@ -1,0 +1,11 @@
+# Submit server .submit file for
+#  Course CMSC131-Plane
+#  Project 107: Lab Week 9 - Strings and Junit
+
+courseName=CMSC131-Plane
+semester=201201
+projectNumber=107
+courseKey=2b830d7d72df211f
+authentication.type=ldap
+baseURL=https://submit.cs.umd.edu:443
+submitURL=https://submit.cs.umd.edu:443/eclipse/SubmitProjectViaEclipse
