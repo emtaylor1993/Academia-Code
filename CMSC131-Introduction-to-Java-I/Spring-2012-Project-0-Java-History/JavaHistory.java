@@ -24,16 +24,16 @@
 
 public class JavaHistory {
 	public static void main(String[] args) {
-		System.out.print("First Introduce Yourself: ");  
+	    System.out.print("First Introduce Yourself: ");  
 	    System.out.println("Hello, my name is Emmanuel Taylor.");
 	    System.out.println("I am currently registered in CMSC131 section:0102.");
 	    System.out.println("My instructor's name is Jandelyn Plane.");
 	    System.out.println("My TA's first name is Uran.");
 	    System.out.println();
 	    System.out.println("Some history of Java I have learned:");
-		System.out.println("Started in the early 1990's");
-		System.out.println("as the Green project.");
-		System.out.println("This team was part of Sun.");
+	    System.out.println("Started in the early 1990's");
+	    System.out.println("as the Green project.");
+	    System.out.println("This team was part of Sun.");
 	    System.out.println("In 1995, it was used in a browser.");
 	    System.out.println("That browser was Netscape.");
 	}
