@@ -40,6 +40,8 @@ public class Sorting {
         System.out.println("##################################################");
         System.out.println("#                 INSERTION SORT                 #");
         System.out.println("##################################################\n");
+        
+        System.out.println("Printing out first 100 elements:\n");
 
         // Printing out first 100 elements of sorted array.
         for (int index = 0; index < 100; index++) {
@@ -62,6 +64,8 @@ public class Sorting {
         System.out.println("#                 SELECTION SORT                 #");
         System.out.println("##################################################\n");
 
+        System.out.println("Printing out first 100 elements:\n");
+
         // Printing out first 100 elements of sorted array.
         for (int index = 0; index < 100; index++) {
             System.out.print(selectionSortArray[index] + ", ");
@@ -83,6 +87,8 @@ public class Sorting {
         System.out.println("#                  BUBBLE SORT                   #");
         System.out.println("##################################################\n");
 
+        System.out.println("Printing out first 100 elements:\n");
+
         // Printing out first 100 elements of sorted array.
         for (int index = 0; index < 100; index++) {
             System.out.print(bubbleSortArray[index] + ", ");
@@ -103,6 +109,8 @@ public class Sorting {
         System.out.println("##################################################");
         System.out.println("#                   MERGE SORT                   #");
         System.out.println("##################################################\n");
+
+        System.out.println("Printing out first 100 elements:\n");
 
         // Printing out first 100 elements of sorted array.
         for (int index = 0; index < 100; index++) {
