@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 public class Sorting {
     final static int ARRAY_SIZE = 5_000;
+    
     public static void main(String[] args) {
         int[] array = new int[ARRAY_SIZE];
 
