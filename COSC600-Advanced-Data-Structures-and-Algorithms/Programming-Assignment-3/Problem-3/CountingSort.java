@@ -36,14 +36,16 @@ public class CountingSort {
         System.out.println("##################################################");
         System.out.println("#                  COUNTING SORT                 #");
         System.out.println("##################################################\n");
-
+       
+        System.out.println("Printing every 100th element:\n");
+       
         // Printing out every 100th element.
         for (int i = 0; i < ARRAY_SIZE; i++) {
             if (i % 100 == 0) {
-                System.out.print(result[i] + "\t");
-                if (i % 1000 == 0 && i != 0) {
+               if (i % 1000 == 0 && i != 0) {
                     System.out.println();
                 }
+                System.out.print(result[i] + ", ");
             }
         }
 
