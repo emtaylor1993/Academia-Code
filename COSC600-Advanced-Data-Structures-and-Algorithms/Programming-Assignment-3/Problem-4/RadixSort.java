@@ -23,7 +23,7 @@ public class RadixSort {
     public static void main(String[] args) {
         Integer[] array = new Integer[ARRAY_SIZE];
 
-        // Populating array with random numbers between 0 and 500.
+        // Populating array with random numbers between 0 and 50_000.
         for (int i = 0; i < ARRAY_SIZE; i++) {
             array[i] = randomInt();
         }
@@ -43,7 +43,7 @@ public class RadixSort {
             if (i % 10 == 0) {
                 System.out.println();
             }
-            System.out.print(array[i] + "\t");
+            System.out.print(array[i] + ", ");
         }
 
         // Printing out the final 100 elements.
@@ -52,7 +52,7 @@ public class RadixSort {
             if (i % 10 == 0) {
                 System.out.println();
             }
-            System.out.print(array[i] + "\t");
+            System.out.print(array[i] + ", ");
         }
 
         // Printing out execution time.
