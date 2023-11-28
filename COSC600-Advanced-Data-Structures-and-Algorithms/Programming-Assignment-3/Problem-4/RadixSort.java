@@ -20,6 +20,7 @@ import java.util.Collections;
 
 public class RadixSort {
     final static int ARRAY_SIZE = 5_000;
+    
     public static void main(String[] args) {
         Integer[] array = new Integer[ARRAY_SIZE];
 
